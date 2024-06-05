@@ -5,9 +5,9 @@ This very simple tool extracts and displays data from the Recall feature in Wind
 
 ## What is Windows Recall?
 
-On May, 20th [2024 Microsoft announced its new Copilot+ PCs](https://blogs.microsoft.com/blog/2024/05/20/introducing-copilot-pcs/) running on ARM architecture.
+On May 20th 2024 [Microsoft announced its new Copilot+ PCs](https://blogs.microsoft.com/blog/2024/05/20/introducing-copilot-pcs/) running on ARM architecture.
 
-With this, they also announced Windows Copilot+ Recall which will be released on 18. June 2024.
+With this, they also announced Windows Copilot+ Recall which will be released on June 18th 2024.
 
 ![image](https://github.com/xaitax/TotalRecall/assets/5014849/eff4619c-700c-47d7-bb89-a05054309517)
 
