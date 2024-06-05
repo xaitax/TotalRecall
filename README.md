@@ -5,7 +5,7 @@ This very simple tool extracts and displays data from the Recall feature in Wind
 
 ## What is Windows Recall?
 
-On May, 20th [2024 Microsoft announced it's new Copilot+ PCs](https://blogs.microsoft.com/blog/2024/05/20/introducing-copilot-pcs/) running on ARM architecture.
+On May, 20th [2024 Microsoft announced its new Copilot+ PCs](https://blogs.microsoft.com/blog/2024/05/20/introducing-copilot-pcs/) running on ARM architecture.
 
 With this, they also announced Windows Copilot+ Recall which will be released on 18. June 2024.
 
@@ -29,7 +29,7 @@ With this, they also announced Windows Copilot+ Recall which will be released on
 
 ## Requirements
 
-To run or use this feature, you need to have one of the new CoPilot+ PCs running on ARM. Some of them can be found [here](https://www.microsoft.com/en-us/windows/copilot-plus-pcs?r=1#shop)
+To run or use this feature, you need to have one of the new Copilot+ PCs running on ARM. Some of them can be found [here](https://www.microsoft.com/en-us/windows/copilot-plus-pcs?r=1#shop)
 
 ![image](https://github.com/xaitax/TotalRecall/assets/5014849/972aedc8-6e3c-4c5a-8d40-55b534d248b4)
 
@@ -221,7 +221,7 @@ A. Yes. I have automated exfiltration, and made a website where you can upload a
 
 I am deliberately holding back technical details until Microsoft ship the feature as I want to give them time to do something.
 
-I actually have a whole bunch of things to show and think the wider cyber community will have so much fun with this when generally available.. but I also think that’s really sad, as real world harm will ensue.
+I actually have a whole bunch of things to show and think the wider cyber community will have so much fun with this when generally available... but I also think that’s really sad, as real world harm will ensue.
 
 **Q. What kind of things are in the database?**
 
@@ -247,7 +247,7 @@ Recall enables threat actors to automate scraping everything you’ve ever looke
 
 During testing this with an off the shelf infostealer, I used Microsoft Defender for Endpoint — which detected the off the shelve infostealer — but by the time the automated remediation kicked in (which took over ten minutes) my Recall data was already long gone.
 
-**Q. Does this enable mass data breaches of website?**
+**Q. Does this enable mass data breaches of websites?**
 
 A. Yes. The next time you see a major data breach where customer data is clearly visible in the breach, you’re going to presume company who processes the data are at fault, right?
 
