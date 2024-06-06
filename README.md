@@ -79,28 +79,30 @@ options:
 ### Example Output
 
 ```bash
-$ totalrecall.py --search password --from_date 2024-06-04 --to_date 2024-06-04
-___________     __         .__ __________                     .__  .__   
-\__    ___/____/  |______  |  |\______   \ ____   ____ _____  |  | |  |  
-  |    | /  _ \   __\__  \ |  | |       _// __ \_/ ___\\__  \ |  | |  |  
+$ totalrecall.py --search password --from_date 2024-06-04 --to_date 2024-06-05
+
+___________     __         .__ __________                     .__  .__
+\__    ___/____/  |______  |  |\______   \ ____   ____ _____  |  | |  |
+  |    | /  _ \   __\__  \ |  | |       _// __ \_/ ___\\__  \ |  | |  |
   |    |(  <_> )  |  / __ \|  |_|    |   \  ___/\  \___ / __ \|  |_|  |__
   |____| \____/|__| (____  /____/____|_  /\___  >\___  >____  /____/____/
-                         \/            \/     \/     \/     \/           
-v0.2 / Alexander Hagenah / @xaitax / ah@primepage.de
+                         \/            \/     \/     \/
+v0.3 / Alexander Hagenah / @xaitax / ah@primepage.de
 
+✅ Permissions modified for C:\Users\alex\AppData\Local\CoreAIPlatform.00\UKP and all its subdirectories and files
 📁 Recall folder found: C:\Users\alex\AppData\Local\CoreAIPlatform.00\UKP\{D87DDB65-90BE-4399-BB1B-5BEB0B1D12CB}
 🟢 Windows Recall feature found. Do you want to proceed with the extraction? (yes/no): yes
-📂 Creating extraction folder: C:\Users\alex\Downloads\TotalRecall\2024-06-04-13-49_Recall_Extraction
+📂 Creating extraction folder: C:\Users\alex\Downloads\TotalRecall\2024-06-06-21-02_Recall_Extraction
 
-🪟 Captured Windows: 133
-📸 Images Taken: 36
-🔍 Search results for 'password': 22
+🪟 Captured Windows: 166
+📸 Images Taken: 46
+🔍 Search results for 'password': 32
 
 📄 Summary of the extraction is available in the file:
-C:\Users\alex\Downloads\TotalRecall\2024-06-04-13-49_Recall_Extraction\TotalRecall.txt
+C:\Users\alex\Downloads\TotalRecall\2024-06-06-21-02_Recall_Extraction\TotalRecall.txt
 
 📂 Full extraction folder path:
-C:\Users\alex\Downloads\TotalRecall\2024-06-04-13-49_Recall_Extraction
+C:\Users\alex\Downloads\TotalRecall\2024-06-06-21-02_Recall_Extraction
 ```
 
 ### How TotalRecall Works
@@ -132,6 +134,16 @@ C:\Users\alex\Downloads\TotalRecall\2024-06-04-13-49_Recall_Extraction
   - Generate detailed reports summarizing the captured windows, images, and search results, all stored in a `TotalRecall.txt` file for easy reference.
 
 TotalRecall provides a straightforward way to explore the data collected by Windows Recall. It's no rocket science whatsoever.
+
+## Changelog
+
+### [24. May 2024] - Version 0.3
+
+- **Permission Fix**: Added the `modify_permissions` function to ensure the script has the necessary permissions to access and manipulate files within the target directories, using the `icacls` command. Thank you [James Forshaw](https://x.com/tiraniddo).
+
+### [04. June 2024] - Version 0.2
+
+- **Initial release**
 
 ## FAQ
 
