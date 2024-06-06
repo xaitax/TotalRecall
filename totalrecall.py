@@ -4,8 +4,9 @@ import sqlite3
 from datetime import datetime, timedelta
 import getpass
 import argparse
+import subprocess
 
-VERSION = "0.2"
+VERSION = "0.3"
 
 BLUE = "\033[94m"
 GREEN = "\033[92m"
@@ -23,6 +24,13 @@ ___________     __         .__ __________                     .__  .__
 v""" + VERSION + """ / Alexander Hagenah / @xaitax / ah@primepage.de
 """
     print(BLUE + banner + ENDC)
+
+def modify_permissions(path):
+    try:
+        subprocess.run(['icacls', path, '/grant', f'{getpass.getuser()}:F'], check=True)
+        print(f"{GREEN}✅ Permissions modified for {path}{ENDC}")
+    except subprocess.CalledProcessError as e:
+        print(f"{RED}❌ Failed to modify permissions for {path}: {e}{ENDC}")
 
 def main(from_date=None, to_date=None, search_term=None):
     display_banner()
@@ -49,6 +57,9 @@ def main(from_date=None, to_date=None, search_term=None):
     if not os.path.exists(db_path) or not os.path.exists(image_store_path):
         print("🚫 Windows Recall feature not found. Nothing to extract.")
         return
+
+    modify_permissions(db_path)
+    modify_permissions(image_store_path)
 
     proceed = input("🟢 Windows Recall feature found. Do you want to proceed with the extraction? (yes/no): ")
     if proceed.lower() != 'yes':
