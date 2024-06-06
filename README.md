@@ -137,7 +137,7 @@ TotalRecall provides a straightforward way to explore the data collected by Wind
 
 ## Changelog
 
-### [24. May 2024] - Version 0.3
+### [06. June 2024] - Version 0.3
 
 - **Permission Fix**: Added the `modify_permissions` function to ensure the script has the necessary permissions to access and manipulate files within the target directories, using the `icacls` command. Thank you [James Forshaw](https://x.com/tiraniddo).
 
