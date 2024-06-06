@@ -83,7 +83,7 @@ def main(from_date=None, to_date=None, search_term=None):
     for image_file in os.listdir(os.path.join(extraction_folder, "ImageStore")):
         image_path = os.path.join(extraction_folder, "ImageStore", image_file)
         new_image_path = f"{image_path}.jpg"
-        if not new_image_path.endswith(".jpg"):
+        if not image_path.endswith(".jpg"):
             os.rename(image_path, new_image_path)
 
     db_extraction_path = os.path.join(extraction_folder, "ukg.db")
