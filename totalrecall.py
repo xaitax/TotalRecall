@@ -11,26 +11,41 @@ VERSION = "0.3"
 BLUE = "\033[94m"
 GREEN = "\033[92m"
 YELLOW = "\033[93m"
+RED = "\033[91m"
 ENDC = "\033[0m"
 
+
 def display_banner():
-    banner = r"""
+    banner = (
+        r"""
 ___________     __         .__ __________                     .__  .__   
 \__    ___/____/  |______  |  |\______   \ ____   ____ _____  |  | |  |  
   |    | /  _ \   __\__  \ |  | |       _// __ \_/ ___\\__  \ |  | |  |  
   |    |(  <_> )  |  / __ \|  |_|    |   \  ___/\  \___ / __ \|  |_|  |__
   |____| \____/|__| (____  /____/____|_  /\___  >\___  >____  /____/____/
-                         \/            \/     \/     \/     \/           
-v""" + VERSION + """ / Alexander Hagenah / @xaitax / ah@primepage.de
+                         \/            \/     \/     \/           
+v"""
+        + VERSION
+        + """ / Alexander Hagenah / @xaitax / ah@primepage.de
 """
+    )
     print(BLUE + banner + ENDC)
+
 
 def modify_permissions(path):
     try:
-        subprocess.run(['icacls', path, '/grant', f'{getpass.getuser()}:F'], check=True)
-        print(f"{GREEN}✅ Permissions modified for {path}{ENDC}")
+        subprocess.run(
+            ["icacls", path, "/grant", f"{getpass.getuser()}:(OI)(CI)F", "/T", "/C", "/Q"],
+            check=True,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+        print(
+            f"{GREEN}✅ Permissions modified for {path} and all its subdirectories and files{ENDC}"
+        )
     except subprocess.CalledProcessError as e:
         print(f"{RED}❌ Failed to modify permissions for {path}: {e}{ENDC}")
+
 
 def main(from_date=None, to_date=None, search_term=None):
     display_banner()
@@ -39,11 +54,16 @@ def main(from_date=None, to_date=None, search_term=None):
     base_path = f"C:\\Users\\{username}\\AppData\\Local\\CoreAIPlatform.00\\UKP"
 
     guid_folder = None
-    for folder_name in os.listdir(base_path):
-        folder_path = os.path.join(base_path, folder_name)
-        if os.path.isdir(folder_path):
-            guid_folder = folder_path
-            break
+    if os.path.exists(base_path):
+        modify_permissions(base_path)
+        for folder_name in os.listdir(base_path):
+            folder_path = os.path.join(base_path, folder_name)
+            if os.path.isdir(folder_path):
+                guid_folder = folder_path
+                break
+    else:
+        print("🚫 Base path does not exist.")
+        return
 
     if not guid_folder:
         print("🚫 Could not find the GUID folder.")
@@ -58,11 +78,10 @@ def main(from_date=None, to_date=None, search_term=None):
         print("🚫 Windows Recall feature not found. Nothing to extract.")
         return
 
-    modify_permissions(db_path)
-    modify_permissions(image_store_path)
-
-    proceed = input("🟢 Windows Recall feature found. Do you want to proceed with the extraction? (yes/no): ")
-    if proceed.lower() != 'yes':
+    proceed = input(
+        "🟢 Windows Recall feature found. Do you want to proceed with the extraction? (yes/no): "
+    )
+    if proceed.lower() != "yes":
         print("⚠️ Extraction aborted.")
         return
 
@@ -76,12 +95,16 @@ def main(from_date=None, to_date=None, search_term=None):
         print(f"📂 Using existing extraction folder: {extraction_folder}\n")
 
     shutil.copy(db_path, extraction_folder)
-    shutil.copytree(image_store_path, os.path.join(extraction_folder, "ImageStore"), dirs_exist_ok=True)
+    shutil.copytree(
+        image_store_path,
+        os.path.join(extraction_folder, "ImageStore"),
+        dirs_exist_ok=True,
+    )
 
     for image_file in os.listdir(os.path.join(extraction_folder, "ImageStore")):
         image_path = os.path.join(extraction_folder, "ImageStore", image_file)
         new_image_path = f"{image_path}.jpg"
-        if not new_image_path.endswith('.jpg'):
+        if not new_image_path.endswith(".jpg"):
             os.rename(image_path, new_image_path)
 
     db_extraction_path = os.path.join(extraction_folder, "ukg.db")
@@ -92,9 +115,16 @@ def main(from_date=None, to_date=None, search_term=None):
     to_date_timestamp = None
 
     if from_date:
-        from_date_timestamp = int(datetime.strptime(from_date, "%Y-%m-%d").timestamp()) * 1000
+        from_date_timestamp = (
+            int(datetime.strptime(from_date, "%Y-%m-%d").timestamp()) * 1000
+        )
     if to_date:
-        to_date_timestamp = int((datetime.strptime(to_date, "%Y-%m-%d") + timedelta(days=1)).timestamp()) * 1000
+        to_date_timestamp = (
+            int(
+                (datetime.strptime(to_date, "%Y-%m-%d") + timedelta(days=1)).timestamp()
+            )
+            * 1000
+        )
 
     query = """
     SELECT WindowTitle, TimeStamp, ImageToken 
@@ -113,9 +143,12 @@ def main(from_date=None, to_date=None, search_term=None):
 
     for row in rows:
         window_title, timestamp, image_token = row
-        if ((from_date_timestamp is None or from_date_timestamp <= timestamp) and
-            (to_date_timestamp is None or timestamp < to_date_timestamp)):
-            readable_timestamp = datetime.fromtimestamp(timestamp / 1000).strftime('%Y-%m-%d %H:%M:%S')
+        if (from_date_timestamp is None or from_date_timestamp <= timestamp) and (
+            to_date_timestamp is None or timestamp < to_date_timestamp
+        ):
+            readable_timestamp = datetime.fromtimestamp(timestamp / 1000).strftime(
+                "%Y-%m-%d %H:%M:%S"
+            )
             if window_title:
                 captured_windows.append(f"[{readable_timestamp}] {window_title}")
                 captured_windows_count += 1
@@ -140,8 +173,10 @@ def main(from_date=None, to_date=None, search_term=None):
         search_output = []
         for result in search_results:
             search_output.append(f"c1: {result[0]}, c2: {result[1]}")
-    
-    with open(os.path.join(extraction_folder, "TotalRecall.txt"), "w", encoding="utf-8") as file:
+
+    with open(
+        os.path.join(extraction_folder, "TotalRecall.txt"), "w", encoding="utf-8"
+    ) as file:
         file.write("Captured Windows:\n")
         file.write("\n".join(captured_windows))
         file.write("\n\nImages Taken:\n")
@@ -149,7 +184,7 @@ def main(from_date=None, to_date=None, search_term=None):
         if search_term:
             file.write("\n\nSearch Results:\n")
             file.write("\n".join(search_output))
-    
+
     conn.close()
 
     for line in output:
@@ -160,11 +195,26 @@ def main(from_date=None, to_date=None, search_term=None):
     print(f"\n📂 Full extraction folder path:")
     print(f"{YELLOW}{extraction_folder}{ENDC}")
 
+
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Extract and display Windows Recall data.")
-    parser.add_argument("--from_date", help="The start date in YYYY-MM-DD format.", type=str, default=None)
-    parser.add_argument("--to_date", help="The end date in YYYY-MM-DD format.", type=str, default=None)
-    parser.add_argument("--search", help="Search term for text recognition data.", type=str, default=None)
+    parser = argparse.ArgumentParser(
+        description="Extract and display Windows Recall data."
+    )
+    parser.add_argument(
+        "--from_date",
+        help="The start date in YYYY-MM-DD format.",
+        type=str,
+        default=None,
+    )
+    parser.add_argument(
+        "--to_date", help="The end date in YYYY-MM-DD format.", type=str, default=None
+    )
+    parser.add_argument(
+        "--search",
+        help="Search term for text recognition data.",
+        type=str,
+        default=None,
+    )
     args = parser.parse_args()
 
     from_date = args.from_date
